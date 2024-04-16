@@ -1,11 +1,11 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { LogInTracker } from './LogInTracker';
 
 function LogIn () {
   const [userName, setUserName] = useState("");
   const [userPassword, setUserPassword] = useState("");
-  const { loggedIn, setLoggedIn, setUserId } = useContext(LogInTracker)
+  const { loggedIn, setLoggedIn, setUserId, userId } = useContext(LogInTracker)
   const navigate = useNavigate();
 
   const handleSubmit = (e) => {
@@ -32,21 +32,14 @@ function LogIn () {
     })
   }
 
-  // const LogOut = () => {
-  //   setLoggedIn(false)
-  // }
-
-  // const LogIn = () => {
-
-  // }
-
   const NewAccount = () => {
     navigate('/users/new')
   }
 
   return loggedIn ? (
     <>
-      <h1>Welcome {userName}!</h1>
+      {/* <h1>Welcome {userName}!</h1> */}
+      {navigate(`/inventory/users/${userId}`)}
     </>
   ) : (
     <div>

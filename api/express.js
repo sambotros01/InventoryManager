@@ -1,8 +1,8 @@
+require("dotenv").config();
 const express = require('express');
 const cors = require('cors');
 const cookieParser = require('cookie-parser')
-const cookieSession = reqiuire('cookie-session')
-require("dotenv").config();
+const cookieSession = require('cookie-session')
 
 const app = express();
 const port = 3001;
@@ -21,22 +21,23 @@ app.use(cookieParser());
 app.use(
   cookieSession({
     username: "user_session",
+    keys: ['supersecret'],
     // secure: true,
     httpOnly: true,
     // sameSite: "strict",
-    secret: 'testing',
+    secret: process.env.secret,
     maxAge: 24 * 60 * 60 * 1000,
     path: "/login",
   })
 );
 
-// app.use((req, res, next) => {
-//   // res.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
-//   // res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
-//   // res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
-//   // res.setHeader("Access-Control-Allow-Credentials", "true");
-//   next();
-// });
+app.use((req, res, next) => {
+  // res.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
+  // res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
+  // res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
+  // res.setHeader("Access-Control-Allow-Credentials", "true");
+  next();
+});
 
 // Get entire inventory
 app.get('/inventory', function(req, res){
