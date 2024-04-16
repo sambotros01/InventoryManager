@@ -5,10 +5,11 @@ import Inventory from './Pages/Inventory';
 import Item from './Pages/Item';
 import Edit from './Pages/Edit';
 import NewItem from './Pages/NewItem';
-//import LogIn from './Pages/LogIn';
+import MyItems from './Pages/MyItems';
+import LogIn from './Pages/LogIn'
 import CreateAccount from './Pages/CreateAccount';
 import { LogInTracker } from './Pages/LogInTracker';
-import { Loginbutton } from './Pages/LogIn';
+import { Loginbutton } from './Pages/LogInFeatures';
 import './App.css';
 
 function App() {
@@ -21,12 +22,11 @@ function App() {
       <Loginbutton />
       <nav>
         <div className = 'navbar'>
-          <ul style={{ listStyleType: "none" }} className="list-group list-group-horizontal">
-            <li style={{display: 'flex', marginRight: '10px'}} className="list-group-item"><Link to="/">Home</Link></li>
-            <li style={{ display: 'flex', marginRight: '10px' }} className="list-group-item"><Link to="/inventory">All Items</Link></li>
-            {loggedIn ? (
-            <li style={{ display: 'flex', marginRight: '10px' }} className="list-group-item"><Link to="/items/add">Add Item</Link></li>
-            ) : ([]) }
+          <ul>
+            <li><Link to="/">Home</Link></li>
+            <li><Link to="/inventory">All Items</Link></li>
+            {loggedIn ? (<li><Link to="/items/add">Add Item</Link></li>) : ([]) }
+            {loggedIn ? ( <li><Link to="/inventory/users/:user_id">My Items</Link></li>) : ([]) }
         </ul>
         </div>
         <br></br>
@@ -38,8 +38,9 @@ function App() {
         <Route path='/inventory/items/:item_id' element={<Item/>} />
         <Route path='/inventory/items/add' element={<NewItem/>} />
         <Route path='/inventory/items/edit/:item_id' element={<Edit/>} />
-        {/* <Route path='/users/login' element={<LogIn/>} /> */}
-        <Route path='/users/createaccount' element={<CreateAccount/>} />
+        <Route path='/inventory/users/:user_id' element={<MyItems/>} />
+        <Route path='/users/login' element={<LogIn/>} />
+        <Route path='/users/new' element={<CreateAccount/>} />
       </Routes>
     </div>
   );

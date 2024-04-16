@@ -1,13 +1,42 @@
 const express = require('express');
 const cors = require('cors');
+const cookieParser = require('cookie-parser')
+const cookieSession = reqiuire('cookie-session')
+require("dotenv").config();
 
 const app = express();
 const port = 3001;
-// const port = 8080;
 const knex = require('knex')(require('./knexfile.js')[process.env.NODE_ENV||'development']);
 
+// app.use(express.json());
+app.use(
+  cors({
+    credentials: true,
+    origin: "http://localhost:3000",
+  })
+);
+
 app.use(express.json());
-app.use(cors());
+app.use(cookieParser());
+app.use(
+  cookieSession({
+    username: "user_session",
+    // secure: true,
+    httpOnly: true,
+    // sameSite: "strict",
+    secret: 'testing',
+    maxAge: 24 * 60 * 60 * 1000,
+    path: "/login",
+  })
+);
+
+// app.use((req, res, next) => {
+//   // res.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
+//   // res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
+//   // res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
+//   // res.setHeader("Access-Control-Allow-Credentials", "true");
+//   next();
+// });
 
 // Get entire inventory
 app.get('/inventory', function(req, res){
@@ -146,6 +175,26 @@ app.post('/users', (req, res) => {
       res.status(500).send(`Your account with username: ${username} could not be created. Please try again.`)
     });
 })
+
+app.post('/login', (req, res) => {
+  knex('users')
+    .select("*")
+    .where({
+      username: `${req.body.username}`,
+    })
+    .then((user_info) => {
+      console.log(req.body);
+      if (user_info.length === 0) {
+        res.status(404).send("User/Password not found");
+      } else if (user_info[0].password !== req.body.password) {
+        console.log(user_info);
+        res.status(404).send("User/Password not found");
+      } else {
+        req.session.username = req.body.username;
+        res.status(200).json(user_info);
+      }
+    });
+});
 
 // Remove a user
 app.delete('/users/:user_id', (req, res) => {
