@@ -9,6 +9,7 @@ function NewItem () {
   const [ itemDescription, setItemDescription] = useState('');
   const [ submit, setSubmit ] = useState(false);
   const [ itemData, setItemData ] = useState('');
+  const [ inventory, setInventory ] = useState('');
   const [ itemId, setItemId ] = useState('');
   const navigate = useNavigate();
 
@@ -39,12 +40,36 @@ function NewItem () {
   }, [itemData])
 
   useEffect(() => {
+    const sendData = async () => {
+      try{
+        const response = await fetch('http://localhost:3001/inventory/user', {
+          method: "POST",
+          headers: { "Content-Type": "application/json"},
+          body: JSON.stringify(inventory)
+        });
+
+        if (!response.ok) {
+          throw new Error(`HTTP error status: ${response.status}`)
+        }
+
+        setSubmit(true)
+      }catch(error){
+        console.error('Error adding new item: ', error);
+        alert('Error adding new item. Please try again')
+      }
+    };
+
+    if(inventory){
+      sendData();
+    }
+
+  }, [itemData])
+
+  useEffect(() => {
     fetch('http://localhost:3001/inventory')
     .then(response => response.json())
-    // .then( x => console.log(x[(x.length) - 1].item_id))
     .then(inventory => setItemId(inventory[(inventory.length) - 1].item_id))
   }, [itemData])
-  // console.log(itemId)
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -55,30 +80,39 @@ function NewItem () {
       item_description: itemDescription
     }
 
+    let inventoryUpdate = {
+      user_id: userId,
+      item_id: parseInt(itemId + 1)
+    }
+
     setItemData(newData);
-  }
-
-  const GoHome = () => {
-    setSubmit(false)
-    navigate('/')
-  }
-
-  const SeeItem = () => {
-    setSubmit(false)
-    navigate(`/inventory/items/${itemId}`)
-  }
-
-  const AllItems = () => {
-    setSubmit(false)
-    navigate(`/inventory`)
-  }
-
-  const AddItem = () => {
-    setItemName('');
-    setItemQuantity(0);
-    setItemDescription('');
+    setInventory(inventoryUpdate)
     setSubmit(false);
+    // alert(`${itemName} has been added! You will now be redirected to your inventory.`)
+    setTimeout(() => navigate(`/inventory/users/${userId}`), 3000)
   }
+
+  // const GoHome = () => {
+  //   setSubmit(false)
+  //   navigate('/')
+  // }
+
+  // const MyInventory = () => {
+  //   setSubmit(false)
+  //   navigate(`/inventory/users/${userId}`)
+  // }
+
+  // const AllInventory = () => {
+  //   setSubmit(false)
+  //   navigate(`/inventory`)
+  // }
+
+  // const AddItem = () => {
+  //   setItemName('');
+  //   setItemQuantity(0);
+  //   setItemDescription('');
+  //   setSubmit(false);
+  // }
 
   if (!loggedIn){
     return <h2>Please log in to access this feature.</h2>
@@ -113,17 +147,16 @@ function NewItem () {
       <div>
         <h1>Welcome to the Item Submission Page</h1>
         <br></br>
-        <h4>Thank you for submitting {itemName} to our inventory.</h4>
         <h4>{itemName} has successfully been added to our inventory!</h4>
-        <h4>You may now close this window.</h4>
+        <h4>You will be redirected to your inventory where you can view {itemName}.</h4>
         <br></br>
         <br></br>
 
         <div className = 'Buttons'>
-          <button type="button" className="btn btn-dark btn-lg" onClick = {() => SeeItem()}>Go To New Item</button>
-          <button type="button" className="btn btn-dark btn-lg" onClick = {() => AddItem()}>Submit New Item</button>
+          {/* <button type="button" className="btn btn-dark btn-lg" onClick = {() => MyInventory()}>My Inventory</button> */}
+          {/* <button type="button" className="btn btn-dark btn-lg" onClick = {() => AddItem()}>Submit New Item</button>
           <button type="button" className="btn btn-dark btn-lg" onClick = {() => AllItems()}>See Inventory</button>
-          <button type="button" className="btn btn-dark btn-lg" onClick = {() => GoHome()}>Go Home</button>
+          <button type="button" className="btn btn-dark btn-lg" onClick = {() => GoHome()}>Go Home</button> */}
         </div>
       </div>
 

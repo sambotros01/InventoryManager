@@ -91,6 +91,23 @@ app.get('/all', function(req, res){
     });
 });
 
+// Add item to a user's inventory
+app.post('/inventory/user', (req, res) => {
+  const { user_id, item_id } = req.body;
+  knex('inventory')
+    .insert({
+      user_id,
+      item_id
+    })
+    .then( () => {
+      res.status(201).send(`Item has been added to your inventory`)
+    })
+    .catch ( (error) => {
+      console.log(error)
+      res.status(500).send(`Item could not be added to your inventory`)
+    });
+})
+
 // Post a new item
 app.post('/inventory', (req, res) => {
   const { item_name, item_description, quantity } = req.body;

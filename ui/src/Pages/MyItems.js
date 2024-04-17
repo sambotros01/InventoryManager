@@ -14,7 +14,7 @@ function MyItems () {
 
   useEffect(() => {
     fetchItems();
-    console.log(allItems)
+    // console.log(allItems)
   }, [])
 
   const fetchItems = async () => {

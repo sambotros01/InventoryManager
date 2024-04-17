@@ -1,8 +1,9 @@
 import React, {useState, useEffect, useContext} from 'react';
 import { useParams, useNavigate } from "react-router-dom";
-// import { confirmable } from 'react-confirm'
+import { LogInTracker } from './LogInTracker';
 
 function Item () {
+  const { userId } = useContext(LogInTracker)
   const { item_id } = useParams();
   const navigate = useNavigate();
 
@@ -76,8 +77,8 @@ function Item () {
           throw new Error(`HTTP error status: ${response.status}`);
         }
 
-        alert(`${itemName} has been deleted. You will now be redirected to the inventory page.`)
-        navigate('/inventory')
+        alert(`${itemName} has been deleted. You will now be redirected to your inventory page.`)
+        navigate(`/inventory/users/${userId}`)
       } catch (error){
         console.error('Error deleting game: ', error)
         alert('Error deleting game. Please try again.')
