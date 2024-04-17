@@ -177,6 +177,7 @@ app.post('/users', (req, res) => {
     });
 })
 
+// Log in
 app.post('/login', (req, res) => {
   knex('users')
     .select("*")

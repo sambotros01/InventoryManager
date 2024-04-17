@@ -1,5 +1,6 @@
 import React, { useContext } from 'react';
 import { Routes, Route, Link } from 'react-router-dom';
+import { compile } from 'path-to-regexp'
 import Home from './Pages/Home';
 import Inventory from './Pages/Inventory';
 import Item from './Pages/Item';
@@ -13,8 +14,11 @@ import { Loginbutton } from './Pages/LogInFeatures';
 import './App.css';
 
 function App() {
-  const { loggedIn } = useContext(LogInTracker)
+  const { loggedIn, userId } = useContext(LogInTracker)
   console.log(loggedIn)
+
+  const MY_ROUTE = '/inventory/users/:user_id';
+  const toPath = compile(MY_ROUTE)
 
   return (
     <div>
@@ -26,7 +30,7 @@ function App() {
             <li><Link to="/">Home</Link></li>
             <li><Link to="/inventory">All Items</Link></li>
             {loggedIn ? (<li><Link to="/items/add">Add Item</Link></li>) : ([]) }
-            {loggedIn ? ( <li><Link to="/inventory/users/:user_id">My Items</Link></li>) : ([]) }
+            {loggedIn ? ( <li><Link to={toPath({user_id: userId})}>My Items</Link></li>) : ([]) }
         </ul>
         </div>
         <br></br>

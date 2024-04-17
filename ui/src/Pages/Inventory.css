@@ -1,0 +1,28 @@
+/* .Outter {
+  display: grid;
+  grid-template-rows: 1fr 1fr 80fr;
+} */
+
+.Inventory {
+  text-align: center;
+  display: flex;
+  /* flex-direction: row; */
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+}
+
+.inventory-pane {
+  display: grid;
+  grid-template-rows: 1fr 1fr 3fr;
+  padding: 20px;
+  justify-content: center;
+}
+
+.item-details {
+  width: 300px;
+}
+
+.item-title {
+  font-size: large;
+  font-weight: bold;
+}
