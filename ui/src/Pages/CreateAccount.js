@@ -8,7 +8,7 @@ function CreateAccount () {
   const [userName, setUserName] = useState("");
   const [userPassword, setUserPassword] = useState("");
   const [accountData, setAccountData] = useState('');
-  const [count, setCount] = useState(0);
+  // const [count, setCount] = useState(0);
   const { loggedIn, setLoggedIn, setUserId, userId } = useContext(LogInTracker)
   const navigate = useNavigate();
 
@@ -21,6 +21,18 @@ function CreateAccount () {
   //   // navigate(`/inventory/users/${userId}`)
 
   //   }, [accountData])
+
+  useEffect(() => {
+    fetch('http://localhost:3001/users')
+    .then(response => response.json())
+    .then( index => {if (userId == 0){
+      return index.length + 1
+    }else{
+      return index.pop().user_id + 1
+    }
+  })
+  .then( data => setUserId(data))
+  }, [userId, setUserId])
 
 
   useEffect(() => {
@@ -41,8 +53,7 @@ function CreateAccount () {
     if (accountData){
       addUser()
     }
-
-    console.log('What?: ', accountData)
+    // console.log('What?: ', accountData)
   }, [accountData])
 
   // const handleSubmit = async (event) => {
@@ -68,29 +79,41 @@ function CreateAccount () {
     password: userPassword,
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    fetch('http://localhost:3001/users', {
-      method: "POST",
-      headers: { 'Content-Type': 'application/json'},
-      body: JSON.stringify(request_data),
-    }).then((res) => {
-      if (res.status === 409) {
-        alert("Username is already in use, please try a different username");
-      } else{
-        window.confirm("Account created!")
-        setLoggedIn(true)
-        setAccountData(request_data)
-      }
-    }).then(
-      fetch('http://localhost:3001/users')
-      .then(response => response.json())
-      .then( last => last.pop())
-      // .then( x => console.log(x.user_id))
-      .then( data => setUserId(data.user_id))
-      .then(x => navigate(`/inventory/users/${userId}`))
-    )
+      fetch('http://localhost:3001/users', {
+        method: "POST",
+        headers: { 'Content-Type': 'application/json'},
+        body: JSON.stringify(request_data),
+      }).then((res) => {
+        if (res.status === 409) {
+          alert("Username is already in use, please try a different username");
+        } else{
+          window.confirm("Account created! You will now be redirected to your inventory")
+          setLoggedIn(true)
+          setAccountData(request_data)
+        }
+      })
+
+    //   await fetch('http://localhost:3001/users')
+    //   .then(response => response.json())
+    //   .then( index => {if (userId == 0){
+    //     return index.length
+    //   }else{
+    //     return index.pop().user_id
+    //   }
+    // })
+    // .then( data => setUserId(data))
+
+    //   // .then( last => last.pop().user_id)
+    //   // .then( x => console.log(x))
+    //   // .then( data => setUserId(data))
+    //   // .then ( x => console.log(userId))
+
+
+    // setTimeout(() => (console.log(userId), 3000))
+    setTimeout(() => navigate(`/inventory/users/${userId}`), 2000)
   }
 
   return (

@@ -92,7 +92,7 @@ app.get('/all', function(req, res){
 });
 
 // Add item to a user's inventory
-app.post('/inventory/user', (req, res) => {
+app.post('/inventory/user/:user_id', (req, res) => {
   const { user_id, item_id } = req.body;
   knex('inventory')
     .insert({
@@ -202,7 +202,7 @@ app.post('/login', (req, res) => {
       username: `${req.body.username}`,
     })
     .then((user_info) => {
-      console.log(req.body);
+      // console.log(req.body);
       if (user_info.length === 0) {
         res.status(404).send("User/Password not found");
       } else if (user_info[0].password !== req.body.password) {

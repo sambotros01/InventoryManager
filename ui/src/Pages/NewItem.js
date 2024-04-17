@@ -11,8 +11,10 @@ function NewItem () {
   const [ itemData, setItemData ] = useState('');
   const [ inventory, setInventory ] = useState('');
   const [ itemId, setItemId ] = useState('');
+  const [ status, setStatus ] = useState(false);
   const navigate = useNavigate();
 
+  // Add new item
   useEffect(() => {
     const sendData = async () => {
       try{
@@ -39,10 +41,29 @@ function NewItem () {
 
   }, [itemData])
 
+  // Grab id of the newly added item
   useEffect(() => {
+      fetch('http://localhost:3001/inventory')
+      .then(response => response.json())
+      // .then( x => console.log(x.pop().item_id))
+      .then(id => setItemId(id.pop().item_id))
+      // .then(x => x.pop().item_id)
+      // .then(next => setStatus(!status))
+
+    if(inventory){
+      setStatus(!status);
+    }
+  }, [inventory])
+
+  // Add the item to the user's account
+  useEffect(() => {
+    fetch('http://localhost:3001/inventory')
+    .then(response => response.json())
+    .then(x => console.log(x))
+
     const sendData = async () => {
       try{
-        const response = await fetch('http://localhost:3001/inventory/user', {
+        const response = await fetch('http://localhost:3001/inventory/user/:user_id', {
           method: "POST",
           headers: { "Content-Type": "application/json"},
           body: JSON.stringify(inventory)
@@ -53,6 +74,7 @@ function NewItem () {
         }
 
         setSubmit(true)
+        console.log('inventory: ', inventory)
       }catch(error){
         console.error('Error adding new item: ', error);
         alert('Error adding new item. Please try again')
@@ -62,14 +84,7 @@ function NewItem () {
     if(inventory){
       sendData();
     }
-
-  }, [itemData])
-
-  useEffect(() => {
-    fetch('http://localhost:3001/inventory')
-    .then(response => response.json())
-    .then(inventory => setItemId(inventory[(inventory.length) - 1].item_id))
-  }, [itemData])
+  }, [status])
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -82,7 +97,7 @@ function NewItem () {
 
     let inventoryUpdate = {
       user_id: userId,
-      item_id: parseInt(itemId + 1)
+      item_id: parseInt(itemId+1)
     }
 
     setItemData(newData);
