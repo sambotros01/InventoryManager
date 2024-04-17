@@ -58,9 +58,7 @@ function MyItems () {
       </div>
       :
       <h2>Please log in to view your inventory.</h2>
-      )
-  ;
-
+  );
 }
 
 export default MyItems

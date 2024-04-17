@@ -29,7 +29,7 @@ function App() {
           <ul>
             <li><Link to="/">Home</Link></li>
             <li><Link to="/inventory">All Items</Link></li>
-            {loggedIn ? (<li><Link to="/items/add">Add Item</Link></li>) : ([]) }
+            {loggedIn ? (<li><Link to="/inventory/items/add">Add Item</Link></li>) : ([]) }
             {loggedIn ? ( <li><Link to={toPath({user_id: userId})}>My Items</Link></li>) : ([]) }
         </ul>
         </div>
