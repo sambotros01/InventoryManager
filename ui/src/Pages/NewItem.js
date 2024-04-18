@@ -3,7 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { LogInTracker } from './LogInTracker';
 
 function NewItem () {
-  const { loggedIn, userId } = useContext(LogInTracker)
+  const { loggedIn, userId, deleted, setDeleted, item, setItem } = useContext(LogInTracker)
   const [ itemName, setItemName ] = useState('');
   const [ itemQuantity, setItemQuantity ] = useState('');
   const [ itemDescription, setItemDescription] = useState('');
@@ -13,6 +13,8 @@ function NewItem () {
   const [ itemId, setItemId ] = useState('');
   const [ status, setStatus ] = useState(false);
   const navigate = useNavigate();
+
+  // console.log(deleted)
 
   // Add new item
   useEffect(() => {
@@ -48,6 +50,13 @@ function NewItem () {
       .then(id => setItemId(id.pop().item_id))
       // .then(x => x.pop().item_id)
       // .then(next => setStatus(!status))
+
+      // if (deleted === true){
+      //   setItemId(parseInt(itemId+1))
+      // }else{
+      //   setItemId(parseInt(itemId))
+      // }
+
     if(inventory){
       setStatus(!status);
     }
@@ -102,6 +111,14 @@ function NewItem () {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    // var testid
+
+    // if (deleted === true){
+    //   testid = parseInt(item+2)
+    // }else{
+    //   testid = parseInt(item+1)
+    // }
+
     let newData = {
       item_name: itemName,
       quantity: itemQuantity,
@@ -110,7 +127,7 @@ function NewItem () {
 
     let inventoryUpdate = {
       user_id: userId,
-      item_id: parseInt(itemId+1)
+      item_id: parseInt(item+1)
     }
 
     setItemData(newData);
@@ -120,8 +137,9 @@ function NewItem () {
   }
 
   const addItem = async () => {
-    // const shouldAdd = window.confirm("Do you want to add this item to your inventory?")
-    // if (shouldAdd){
+    // const shouldAdd = window.confirm("This item has been added! Press continue to see your updated inventory")
+    var shouldAdd = true;
+    if (shouldAdd){
       try{
           const response = await fetch('http://localhost:3001/inventory/user/:user_id', {
             method: "POST",
@@ -139,14 +157,39 @@ function NewItem () {
           console.error('Error adding new item: ', error);
           alert('Error adding new item. Please try again')
         }
-    // }
-
-    setTimeout(() => navigate(`/inventory/users/${userId}`), 1000)
-
-
-  // alert(`${itemName} has been added! You will now be redirected to your inventory. Please wait.`)
-
+    }
+    setDeleted(false)
+    alert(`${itemName} has been added! You will now be redirected to your inventory.`)
+    setTimeout(() => navigate(`/inventory/users/${userId}`), 500)
   }
+
+  const cancelAdd = async () =>{
+    alert('Item was not added to your inventory. You will now be redirected to your inventory.')
+    setTimeout(() => navigate(`/inventory/users/${userId}`), 500)
+    const shouldDelete = true
+
+      if (shouldDelete){
+        try{
+          const response = await fetch(`http://localhost:3001/inventory/item/${inventory.item_id}`, {
+            method: 'DELETE',
+          });
+
+          if (!response.ok) {
+            throw new Error(`HTTP error status: ${response.status}`);
+          }
+
+
+
+        } catch (error){
+          console.error('Error deleting item: ', error)
+          alert('Error deleting item. Please try again.')
+        }
+      }
+
+      setDeleted(true);
+      setItem(item + 1);
+
+    }
 
 
 
@@ -206,12 +249,14 @@ function NewItem () {
         <h1>Welcome to the Item Submission Page</h1>
         <br></br>
         <h4>{itemName} has successfully been added to our inventory!</h4>
-        <h4>You will be redirected to your inventory where you can view {itemName}.</h4>
-        <br></br>
+        {/* <h4>You will be redirected to your inventory where you can view {itemName}.</h4> */}
+        <h4>Press Continue to see your updated inventory.</h4>
+        <h4>If you would like to cancel this change please press Cancel</h4>
         <br></br>
 
         <div className = 'Buttons'>
-          <button type = "button" onClick = {() => addItem()}>Add to my inventory</button>
+          <button type = "button" onClick = {() => addItem()}>Continue</button>
+          <button type = "button" onClick = {() => cancelAdd()}>Cancel</button>
           {/* <button type="button" className="btn btn-dark btn-lg" onClick = {() => MyInventory()}>My Inventory</button> */}
           {/* <button type="button" className="btn btn-dark btn-lg" onClick = {() => AddItem()}>Submit New Item</button>
           <button type="button" className="btn btn-dark btn-lg" onClick = {() => AllItems()}>See Inventory</button>

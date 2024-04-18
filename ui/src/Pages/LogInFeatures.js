@@ -148,6 +148,7 @@ export const Loginbutton = () => {
 
   const handleOnClick = () => {
    setLoggedIn(false)
+  //  setDeleted(false)
    navigate('/')
   }
 

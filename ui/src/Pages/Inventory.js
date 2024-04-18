@@ -1,17 +1,36 @@
 import './Inventory.css'
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
+import { LogInTracker } from './LogInTracker';
 import { useNavigate } from 'react-router-dom';
 
 function Inventory () {
   const [ allItems, setAllItems ] = useState([]);
+  const [ id, setId] = useState(0)
   // const [ foodDescription, setFoodDescription ] = useState([])
+  const { item, setItem } = useContext(LogInTracker)
   const navigate = useNavigate();
+  console.log('itemid:', item);
 
   useEffect(() => {
     fetchItems();
-    // allItems.map(details => (setFoodDescription(details.item_description)))
-    // console.log(foodDescription)
+
   }, [])
+
+  useEffect(() => {
+    fetchId();
+
+    if(id > item){
+      setItem(id)
+    }
+
+  }, [id])
+
+  const fetchId = async () => {
+    await fetch('http://localhost:3001/inventory')
+    .then(response => response.json())
+    .then(data => setId(parseInt(data[data.length-1].item_id)))
+    // .then(x => console.log(parseInt(x[x.length-1].item_id)))
+  }
 
   const fetchItems = async () => {
     await fetch('http://localhost:3001/inventory')

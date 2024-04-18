@@ -5,10 +5,12 @@ import { LogInTracker } from './LogInTracker';
 
 function MyItems () {
   const { user_id } = useParams();
-  const { loggedIn } = useContext(LogInTracker)
+  const { loggedIn, item, setItem, deleted } = useContext(LogInTracker)
   const [ allItems, setAllItems ] = useState([]);
+  const [ id, setId ] = useState(0)
   // const [ foodDescription, setFoodDescription ] = useState([])
   const navigate = useNavigate();
+  console.log('itemid:', item);
 
   // console.log(userId)
 
@@ -16,6 +18,26 @@ function MyItems () {
     fetchItems();
     // console.log(allItems)
   }, [])
+
+  useEffect(() => {
+    fetchId();
+
+    if(id > item ){
+      setItem(id)
+    }
+
+    // if(deleted){
+    //   setItem(item + 1);
+    // }
+
+  }, [id])
+
+  const fetchId = async () => {
+    await fetch('http://localhost:3001/inventory')
+    .then(response => response.json())
+    .then(data => setId(parseInt(data[data.length-1].item_id)))
+    // .then(x => console.log(parseInt(x[x.length-1].item_id)))
+  }
 
   const fetchItems = async () => {
     await fetch(`http://localhost:3001/inventory/user/${user_id}`)

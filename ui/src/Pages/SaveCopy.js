@@ -195,3 +195,30 @@
 
 // }
 // export default NewItem
+
+
+
+
+
+///////////// Evaluate JSON /////////////
+//var responseClone;
+//     const response = fetch('http://localhost:3001/inventory/user/:user_id', {
+//             method: "POST",
+//             headers: { "Content-Type": "application/json"},
+//             body: JSON.stringify(inventory)
+//           })
+//     .then(function(response){
+//       responseClone = response.clone();
+//       return response.json()
+//     })
+//     .then(function (data){
+
+//     }, function(rejectReason){
+//       console.log('Error parsing JSON from response:', rejectReason, responseClone); // 4
+//     responseClone.text() // 5
+//     .then(function (bodyText) {
+//         console.log('Received the following instead of valid JSON:', bodyText); // 6
+//     });
+// });
+// setTimeout(() => navigate(`/inventory/users/${userId}`), 5000)
+//   };

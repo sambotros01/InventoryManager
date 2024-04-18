@@ -3,7 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { LogInTracker } from './LogInTracker';
 
 function Item () {
-  const { userId } = useContext(LogInTracker)
+  const { userId, deleted, setDeleted, loggedIn } = useContext(LogInTracker)
   const { item_id } = useParams();
   const navigate = useNavigate();
 
@@ -20,11 +20,24 @@ function Item () {
       try{
         const response = await fetch (`http://localhost:3001/inventory/item/${item_id}`)
         const data = await response.json();
-        setItemData(data[0]);
+        // setItemData(data[0]);
         setItemName(data[0].item_name);
         setItemQuantity(data[0].quantity);
         setItemDescription(data[0].item_description)
         setLoading(false);
+      } catch(error){
+        console.error('Error fetching item: ', error)
+      }
+    }
+    fetchData()
+  }, [item_id])
+
+  useEffect(() => {
+    const fetchData = async() => {
+      try{
+        const response = await fetch (`http://localhost:3001/inventory/`)
+        const data = await response.json();
+        setItemData(data);
       } catch(error){
         console.error('Error fetching item: ', error)
       }
@@ -67,6 +80,15 @@ function Item () {
 
   const Delete = async () => {
     const shouldDelete = window.confirm("Are you sure you want to delete this item?")
+    // if (item_id == parseInt(itemData[itemData.length - 1].item_id)){
+    //   setDeleted(true);
+    // }
+
+    // console.log('Deleted: ', deleted)
+    // console.log('ItemID: ', item_id)
+    // console.log('Item Data: ', itemData)
+    // console.log('LastID: ', itemData[itemData.length - 1].item_id)
+
     if (shouldDelete){
       try{
         const response = await fetch(`http://localhost:3001/inventory/item/${item_id}`, {
@@ -86,31 +108,57 @@ function Item () {
     }
   }
 
+
   return(
     (!loading ?
 
       (!edit ?
 
-        <>
-        <h2>Item Details</h2>
-        <br></br>
-        <h3>Item Name:</h3>
-        <p>{itemName}</p>
-        <br></br>
-        <h3>Quantity</h3>
-        <p>{itemQuantity} </p>
-        <br></br>
-        <h3>Item Description:</h3>
-        <p>{itemDescription}</p>
-        <br></br>
-        <br></br>
-        <button type = "button" onClick = {() => Update()}>Update</button>
-        <br></br>
-        <br></br>
-        <button type = "button" onClick = {() => Delete()}>Delete</button>
-        </>
+        (loggedIn ?
+
+          <>
+          <h2>Item Details</h2>
+          <br></br>
+          <h3>Item Name:</h3>
+          <p>{itemName}</p>
+          <br></br>
+          <h3>Quantity</h3>
+          <p>{itemQuantity} </p>
+          <br></br>
+          <h3>Item Description:</h3>
+          <p>{itemDescription}</p>
+          <br></br>
+          <br></br>
+          <button type = "button" onClick = {() => Update()}>Update</button>
+          <br></br>
+          <br></br>
+          <button type = "button" onClick = {() => Delete()}>Delete</button>
+          </>
+
+          :
+
+          <>
+          <h2>Item Details</h2>
+          <br></br>
+          <h3>Item Name:</h3>
+          <p>{itemName}</p>
+          <br></br>
+          <h3>Quantity</h3>
+          <p>{itemQuantity} </p>
+          <br></br>
+          <h3>Item Description:</h3>
+          <p>{itemDescription}</p>
+          <br></br>
+          <br></br>
+          </>
+
+
+          )
+
+
 
         :
+
         <div>
         <h2>Edit Item</h2>
           <form onSubmit={handleSubmit}>

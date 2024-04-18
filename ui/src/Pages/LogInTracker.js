@@ -7,6 +7,8 @@ export const LoggedInProvider = ({ children }) => {
   const [ loggedIn, setLoggedIn ] = useState(false);
   const [ userId, setUserId ] = useState(0)
   const [ refreshToggle, setRefreshToggle ] = useState(false)
+  const [ deleted, setDeleted ] = useState(false);
+  const [item, setItem ] = useState(0);
   return (
     <LogInTracker.Provider
       value={{
@@ -15,7 +17,11 @@ export const LoggedInProvider = ({ children }) => {
         userId,
         setUserId,
         refreshToggle,
-        setRefreshToggle
+        setRefreshToggle,
+        deleted,
+        setDeleted,
+        item,
+        setItem
       }}
     >
       {children}
