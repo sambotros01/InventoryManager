@@ -38,7 +38,6 @@ function NewItem () {
     if(itemData){
       sendData();
     }
-
   }, [itemData])
 
   // Grab id of the newly added item
@@ -49,42 +48,56 @@ function NewItem () {
       .then(id => setItemId(id.pop().item_id))
       // .then(x => x.pop().item_id)
       // .then(next => setStatus(!status))
-
     if(inventory){
       setStatus(!status);
     }
   }, [inventory])
 
   // Add the item to the user's account
-  useEffect(() => {
-    fetch('http://localhost:3001/inventory')
-    .then(response => response.json())
-    .then(x => console.log(x))
+  // useEffect(() => {
+    // fetch('http://localhost:3001/inventory')
+    //   .then(response => response.json())
+    //   .then(id => setItemId(id.pop().item_id))
 
-    const sendData = async () => {
-      try{
-        const response = await fetch('http://localhost:3001/inventory/user/:user_id', {
-          method: "POST",
-          headers: { "Content-Type": "application/json"},
-          body: JSON.stringify(inventory)
-        });
+      // .then( x => console.log('Current ID: ', x))
 
-        if (!response.ok) {
-          throw new Error(`HTTP error status: ${response.status}`)
-        }
+      // fetch('http://localhost:3001/inventory/user/:user_id', {
+      //   method: "POST",
+      //   headers: { "Content-Type": "application/json"},
+      //   body: JSON.stringify(inventory)
+      // })
+      // .then(x => setSubmit(true))
+      // .then( x => console.log('inventory: ', inventory))])
 
-        setSubmit(true)
-        console.log('inventory: ', inventory)
-      }catch(error){
-        console.error('Error adding new item: ', error);
-        alert('Error adding new item. Please try again')
-      }
-    };
+      // setSubmit(true),
+      // console.log('inventory: ', inventory)])
 
-    if(inventory){
-      sendData();
-    }
-  }, [status])
+    // .then(x => console.log(x))
+
+  //   const sendData = async () => {
+  //     try{
+  //       const response = await fetch('http://localhost:3001/inventory/user/:user_id', {
+  //         method: "POST",
+  //         headers: { "Content-Type": "application/json"},
+  //         body: JSON.stringify(inventory)
+  //       });
+
+  //       if (!response.ok) {
+  //         throw new Error(`HTTP error status: ${response.status}`)
+  //       }
+
+  //       setSubmit(true);
+  //       console.log('inventory: ', inventory)
+  //     }catch(error){
+  //       console.error('Error adding new item: ', error);
+  //       alert('Error adding new item. Please try again')
+  //     }
+  //   };
+
+  //   if(inventory){
+  //     sendData();
+  //   }
+  // }, [status])
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -103,9 +116,39 @@ function NewItem () {
     setItemData(newData);
     setInventory(inventoryUpdate)
     setSubmit(false);
-    // alert(`${itemName} has been added! You will now be redirected to your inventory.`)
-    setTimeout(() => navigate(`/inventory/users/${userId}`), 3000)
+    // navigate(`/inventory/users/${userId}`)
   }
+
+  const addItem = async () => {
+    // const shouldAdd = window.confirm("Do you want to add this item to your inventory?")
+    // if (shouldAdd){
+      try{
+          const response = await fetch('http://localhost:3001/inventory/user/:user_id', {
+            method: "POST",
+            headers: { "Content-Type": "application/json"},
+            body: JSON.stringify(inventory)
+          });
+
+          if (!response.ok) {
+            throw new Error(`HTTP error status: ${response.status}`)
+          }
+
+          setSubmit(true);
+          console.log('inventory: ', inventory)
+        }catch(error){
+          console.error('Error adding new item: ', error);
+          alert('Error adding new item. Please try again')
+        }
+    // }
+
+    setTimeout(() => navigate(`/inventory/users/${userId}`), 1000)
+
+
+  // alert(`${itemName} has been added! You will now be redirected to your inventory. Please wait.`)
+
+  }
+
+
 
   // const GoHome = () => {
   //   setSubmit(false)
@@ -168,6 +211,7 @@ function NewItem () {
         <br></br>
 
         <div className = 'Buttons'>
+          <button type = "button" onClick = {() => addItem()}>Add to my inventory</button>
           {/* <button type="button" className="btn btn-dark btn-lg" onClick = {() => MyInventory()}>My Inventory</button> */}
           {/* <button type="button" className="btn btn-dark btn-lg" onClick = {() => AddItem()}>Submit New Item</button>
           <button type="button" className="btn btn-dark btn-lg" onClick = {() => AllItems()}>See Inventory</button>
