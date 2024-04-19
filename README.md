@@ -50,11 +50,6 @@ Have fun!
       - npm start
       - React Page should now be up and running on local host
 
-  ## Run API
-    - cd into api
-    - npm start
-    - Server should now be up and running on a local port
-
   ## Create Data
     - Image
       - docker pull postgres
@@ -74,6 +69,15 @@ Have fun!
 
     - Log In
       - psql -U postgres
+
+    - Create Database
+      - CREATE DATABASE inventory_db
+      - \c inventory_db
+
+  ## Run API
+    - cd into api
+    - npm start
+    - Server should now be up and running on a local port
 
     - Migration
       - Migrate tables are provided in the folder <migrations> within api
