@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { LogInTracker } from './LogInTracker';
+import './Login.css'
 
 function CreateAccount () {
   const [firstName, setFirstName] = useState("");
@@ -11,6 +12,9 @@ function CreateAccount () {
   // const [count, setCount] = useState(0);
   const { loggedIn, setLoggedIn, setUserId, userId } = useContext(LogInTracker)
   const navigate = useNavigate();
+  // const bcrypt = require('bcrypt');
+  // let saltRounds = 12;
+  // let thePlaintextPassword = userPassword;
 
 
   // useEffect(() => {
@@ -81,7 +85,6 @@ function CreateAccount () {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
       fetch('http://localhost:3001/users', {
         method: "POST",
         headers: { 'Content-Type': 'application/json'},
@@ -95,6 +98,16 @@ function CreateAccount () {
           setAccountData(request_data)
         }
       })
+
+      // bcrypt.hash(thePlaintextPassword, saltRounds)
+      //   .then((hash) => {
+      //     // Store hash in your password DB...
+      //     // or insecurely log it!
+      //     console.log(hash);
+      //   })
+      //   .catch((err) => {
+      //     console.log("oopsie:", err);
+      //   });
 
     //   await fetch('http://localhost:3001/users')
     //   .then(response => response.json())
@@ -117,10 +130,10 @@ function CreateAccount () {
   }
 
   return (
-    <div>
-      <h1>Create A New Account</h1>
+    <div className = "Background">
+      <h1 className = 'Title'>Create A New Account</h1>
 
-      <form onSubmit={(event) => handleSubmit(event)}>
+      <form className = 'Form' onSubmit={(event) => handleSubmit(event)}>
 
         <label>
           <input

@@ -58,20 +58,23 @@ function Inventory () {
 
 
   return (
+    <div className = 'Background'>
+      <h1 className = 'Title'>All Items</h1>
       <div className="App">
-      {allItems.map((food, index) => (
-        <div className='inventory-pane' key={food.item_id} onClick={() => Details(food.item_id)}>
-          <div className='item-title'>
-            {food.item_name}
+        {allItems.map((food, index) => (
+          <div className='inventory-pane' key={food.item_id} onClick={() => Details(food.item_id)}>
+            <div className='item-title'>
+              {food.item_name}
+            </div>
+            <div className='item-quantity'>
+              {food.quantity}
+            </div>
+            <div className='item-details'>
+              {Description(food.item_description)}
+            </div>
           </div>
-          <div className='item-quantity'>
-            {food.quantity}
-          </div>
-          <div className='item-details'>
-            {Description(food.item_description)}
-          </div>
-        </div>
-      ))}
+        ))}
+      </div>
     </div>
   );
 

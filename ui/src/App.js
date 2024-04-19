@@ -21,31 +21,36 @@ function App() {
   const toPath = compile(MY_ROUTE)
 
   return (
-    <div>
-      <h1>Supra Tracker</h1>
-      <Loginbutton />
-      <nav>
-        <div className = 'navbar'>
-          <ul>
-            <li><Link to="/">Home</Link></li>
-            <li><Link to="/inventory">All Items</Link></li>
-            {loggedIn ? (<li><Link to="/inventory/items/add">Add Item</Link></li>) : ([]) }
-            {loggedIn ? ( <li><Link to={toPath({user_id: userId})}>My Items</Link></li>) : ([]) }
-        </ul>
+    <div className = 'all'>
+      <div className = 'header'>
+        <div className = 'top'>
+          <h1 className = 'title'>Supra Tracker</h1>
+            <div className = 'login'>
+              <Loginbutton />
+            </div>
         </div>
-        <br></br>
-      </nav>
 
-      <Routes>
-        <Route path='/' element={<Home/>} />
-        <Route path='/inventory' element={<Inventory/>} />
-        <Route path='/inventory/items/:item_id' element={<Item/>} />
-        <Route path='/inventory/items/add' element={<NewItem/>} />
-        <Route path='/inventory/items/edit/:item_id' element={<Edit/>} />
-        <Route path='/inventory/users/:user_id' element={<MyItems/>} />
-        <Route path='/users/login' element={<LogIn/>} />
-        <Route path='/users/new' element={<CreateAccount/>} />
-      </Routes>
+        <nav>
+            {/* <ul className = 'navbar'> */}
+              <li className = 'link'><Link to="/">Home</Link></li>
+              <li><Link to="/inventory">All Items</Link></li>
+              {loggedIn ? (<li><Link to="/inventory/items/add">Add Item</Link></li>) : ([]) }
+              {loggedIn ? ( <li><Link to={toPath({user_id: userId})}>My Items</Link></li>) : ([]) }
+            {/* </ul> */}
+          <br></br>
+        </nav>
+      </div>
+
+        <Routes>
+          <Route path='/' element={<Home/>} />
+          <Route path='/inventory' element={<Inventory/>} />
+          <Route path='/inventory/items/:item_id' element={<Item/>} />
+          <Route path='/inventory/items/add' element={<NewItem/>} />
+          <Route path='/inventory/items/edit/:item_id' element={<Edit/>} />
+          <Route path='/inventory/users/:user_id' element={<MyItems/>} />
+          <Route path='/users/login' element={<LogIn/>} />
+          <Route path='/users/new' element={<CreateAccount/>} />
+        </Routes>
     </div>
   );
 }

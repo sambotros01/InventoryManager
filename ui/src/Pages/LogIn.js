@@ -1,6 +1,7 @@
 import React, { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { LogInTracker } from './LogInTracker';
+import './Login.css'
 
 function LogIn () {
   const [userName, setUserName] = useState("");
@@ -37,16 +38,15 @@ function LogIn () {
   }
 
   return loggedIn ? (
-    <>
+    <div className = 'Background'>
       {/* <h1>Welcome {userName}!</h1> */}
       {navigate(`/inventory/users/${userId}`)}
-    </>
+    </div>
   ) : (
-    <div>
-      <h2>Log In</h2>
+    <div className = 'Background'>
+      <h2 className = 'Title'>Log In</h2>
       <br />
-
-      <form>
+      <form className = 'Form'>
         <label>
           <input
             required
@@ -72,19 +72,21 @@ function LogIn () {
         <br></br>
         <input
           type="submit"
-          className="btn btn-dark "
+          className="Submit"
           value="Submit"
           onClick={(e) => handleSubmit(e)}
         />
       </form>
       <br></br>
-      <button
-        type="button"
-        className="btn btn-dark "
-        onClick={() => NewAccount()}
-      >
-        Create New Account
-      </button>
+      <div className = 'Container'>
+        <button
+          type="button"
+          className= "CreateAccount"
+          onClick={() => NewAccount()}
+        >
+          New Account
+        </button>
+      </div>
     </div>
   );
 

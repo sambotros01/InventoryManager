@@ -2,26 +2,53 @@
   text-align: center;
 }
 
-/* .App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-} */
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.header {
+  background-image: url('https://t3.ftcdn.net/jpg/01/87/29/78/360_F_187297852_NGWSBOwoCXbr6ZdpWjuIGGTY6y90CuHQ.jpg');
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   font-size: calc(10px + 2vmin);
-  color: white;
+  color: black;
+}
+
+.top{
+  display: grid;
+  grid-template-columns: 10fr 2fr;
+  width: 100%;
+}
+
+.title{
+  text-align: center;
+  align-items: center;
+  padding-left: 200px;
+}
+
+li{
+  list-style-type: none;
+}
+
+.login{
+  align-self: center;
+}
+
+a{
+  font-style: bold;
+  font-weight: bolder;
+  color: black;
+
+}
+
+nav{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  column-gap: 5%;
+  width: 100%;
+  padding: 1%;
+  padding-bottom: 5%;
+
 }
 
 /* .App-link {

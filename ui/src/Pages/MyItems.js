@@ -63,6 +63,8 @@ function MyItems () {
 
   return (
     (loggedIn) ?
+    <div className = 'Background'>
+      <h1 className = 'Title'>My Items</h1>
         <div className="App">
         {allItems.map((food, index) => (
           <div className='inventory-pane' key={food.item_id} onClick={() => Details(food.item_id)}>
@@ -78,8 +80,9 @@ function MyItems () {
           </div>
         ))}
       </div>
+    </div>
       :
-      <h2>Please log in to view your inventory.</h2>
+      <h2 className = 'Title'>Please log in to view your inventory.</h2>
   );
 }
 
