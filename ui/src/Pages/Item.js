@@ -1,6 +1,7 @@
 import React, {useState, useEffect, useContext} from 'react';
 import { useParams, useNavigate } from "react-router-dom";
 import { LogInTracker } from './LogInTracker';
+import './Login.css'
 
 function Item () {
   const { userId, deleted, setDeleted, loggedIn } = useContext(LogInTracker)
@@ -116,41 +117,43 @@ function Item () {
 
         (loggedIn ?
 
-          <>
-          <h2>Item Details</h2>
+          <div className = 'Background'>
+          <h2 className = 'Title'>Item Details</h2>
           <br></br>
-          <h3>Item Name:</h3>
-          <p>{itemName}</p>
+          <h3 className = 'Title'>Item Name:</h3>
+          <p className = 'Title'>{itemName}</p>
           <br></br>
-          <h3>Quantity</h3>
-          <p>{itemQuantity} </p>
+          <h3 className = 'Title'>Quantity</h3>
+          <p className = 'Title'>{itemQuantity} </p>
           <br></br>
-          <h3>Item Description:</h3>
-          <p>{itemDescription}</p>
-          <br></br>
-          <br></br>
-          <button type = "button" onClick = {() => Update()}>Update</button>
+          <h3 className = 'Title'>Item Description:</h3>
+          <p className = 'Title'>{itemDescription}</p>
           <br></br>
           <br></br>
-          <button type = "button" onClick = {() => Delete()}>Delete</button>
-          </>
+          <div className = 'Container'>
+          <button className = 'Update-Button' type = "button" onClick = {() => Update()}>Update</button>
+          <br></br>
+          <br></br>
+          <button className = 'Delete-Button' type = "button" onClick = {() => Delete()}>Delete</button>
+          </div>
+          </div>
 
           :
 
-          <>
-          <h2>Item Details</h2>
+          <div className = 'Background'>
+          <h2 className = 'Title'>Item Details</h2>
           <br></br>
-          <h3>Item Name:</h3>
-          <p>{itemName}</p>
+          <h3 className = 'Title'>Item Name:</h3>
+          <p className = 'Title'>{itemName}</p>
           <br></br>
-          <h3>Quantity</h3>
-          <p>{itemQuantity} </p>
+          <h3 className = 'Title'>Quantity</h3>
+          <p className = 'Title'>{itemQuantity} </p>
           <br></br>
-          <h3>Item Description:</h3>
-          <p>{itemDescription}</p>
+          <h3 className = 'Title'>Item Description:</h3>
+          <p className = 'Title'>{itemDescription}</p>
           <br></br>
           <br></br>
-          </>
+          </div>
 
 
           )
@@ -159,9 +162,9 @@ function Item () {
 
         :
 
-        <div>
-        <h2>Edit Item</h2>
-          <form onSubmit={handleSubmit}>
+        <div className = 'Background'>
+        <h2 className = 'Title'>Edit Item</h2>
+          <form className = 'Form' onSubmit={handleSubmit}>
             <label>
               <input type = "text" placeholder = "Enter Item Name" style={{ paddingLeft: 60, paddingRight: 60, borderRadius: 5, textAlign: 'center' }} value={itemName} onChange={(e) => setItemName(e.target.value)} />
             </label>
@@ -177,14 +180,14 @@ function Item () {
             </label>
             <br></br>
 
-            <button className="btn btn-dark" type="submit">Submit</button>
+            <button className="Button" type="submit">Submit</button>
           </form>
       </div>
       )
 
       :
 
-      <h1>Loading...</h1>
+      <h1 className = 'Title'>Loading...</h1>
 
     )
 

@@ -22,14 +22,23 @@
   align-items: center;
 }
 
-.Containter{
+.Container{
   display: flex;
   align-items: center;
   justify-content: center;
+  column-gap: 50px;;
 }
 
 .CreateAccount{
   margin-inline: 47.5%;
+}
+
+.Button{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  column-gap: 50px;;
 }
 
 /* .Submit{

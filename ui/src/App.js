@@ -34,8 +34,8 @@ function App() {
             {/* <ul className = 'navbar'> */}
               <li className = 'link'><Link to="/">Home</Link></li>
               <li><Link to="/inventory">All Items</Link></li>
-              {loggedIn ? (<li><Link to="/inventory/items/add">Add Item</Link></li>) : ([]) }
               {loggedIn ? ( <li><Link to={toPath({user_id: userId})}>My Items</Link></li>) : ([]) }
+              {loggedIn ? (<li><Link to="/inventory/items/add">Add Item</Link></li>) : ([]) }
             {/* </ul> */}
           <br></br>
         </nav>

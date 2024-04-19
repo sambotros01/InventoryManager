@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { LogInTracker } from './LogInTracker';
+import './Login.css'
 
 function NewItem () {
   const { loggedIn, userId, deleted, setDeleted, item, setItem } = useContext(LogInTracker)
@@ -221,9 +222,9 @@ function NewItem () {
 
   return(
     (!submit ?
-      <div>
-        <h1>New Item Submission Page</h1>
-          <form onSubmit={handleSubmit}>
+      <div className = 'Background'>
+        <h1 className = 'Title'>New Item Submission Page</h1>
+          <form className = 'Form' onSubmit={handleSubmit}>
             <label>
               <input type = "text" placeholder = "Enter Item Name" style={{ paddingLeft: 60, paddingRight: 60, borderRadius: 5, textAlign: 'center' }} value={itemName} onChange={(e) => setItemName(e.target.value)} />
             </label>
@@ -245,16 +246,16 @@ function NewItem () {
 
         :
 
-      <div>
-        <h1>Welcome to the Item Submission Page</h1>
+      <div className = 'Background'>
+        <h1 className = 'Title'>Welcome to the Item Submission Page</h1>
         <br></br>
-        <h4>{itemName} has successfully been added to our inventory!</h4>
+        <h4 className = 'Title'>{itemName} has successfully been added to our inventory!</h4>
         {/* <h4>You will be redirected to your inventory where you can view {itemName}.</h4> */}
-        <h4>Press Continue to see your updated inventory.</h4>
-        <h4>If you would like to cancel this change please press Cancel</h4>
+        <h4 className = 'Title'>Press Continue to see your updated inventory.</h4>
+        <h4 className = 'Title'>If you would like to cancel this change please press Cancel</h4>
         <br></br>
 
-        <div className = 'Buttons'>
+        <div className = 'Button'>
           <button type = "button" onClick = {() => addItem()}>Continue</button>
           <button type = "button" onClick = {() => cancelAdd()}>Cancel</button>
           {/* <button type="button" className="btn btn-dark btn-lg" onClick = {() => MyInventory()}>My Inventory</button> */}
