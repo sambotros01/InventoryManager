@@ -8,7 +8,6 @@ const app = express();
 const port = 3001;
 const knex = require('knex')(require('./knexfile.js')[process.env.NODE_ENV||'development']);
 
-// app.use(express.json());
 app.use(
   cors({
     credentials: true,
@@ -32,10 +31,6 @@ app.use(
 );
 
 app.use((req, res, next) => {
-  // res.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
-  // res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
-  // res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
-  // res.setHeader("Access-Control-Allow-Credentials", "true");
   next();
 });
 
@@ -177,7 +172,6 @@ app.get('/users', function(req, res){
 // Add a new user
 app.post('/users', (req, res) => {
   const { name_first, name_last, username, password } = req.body;
-  // console.log('password: ', req.body)
   knex('users')
     .insert({
       name_first,
@@ -202,7 +196,6 @@ app.post('/login', (req, res) => {
       username: `${req.body.username}`,
     })
     .then((user_info) => {
-      // console.log(req.body);
       if (user_info.length === 0) {
         res.status(404).send("User/Password not found");
       } else if (user_info[0].password !== req.body.password) {

@@ -23,19 +23,17 @@ function App() {
     <div className = 'all'>
       <div className = 'header'>
         <div className = 'top'>
-          <h1 className = 'title'>Supra Tracker</h1>
+            <h1 className = 'title'>Supra Tracker</h1>
             <div className = 'login'>
               <Loginbutton />
             </div>
         </div>
 
         <nav>
-            {/* <ul className = 'navbar'> */}
-              <li className = 'link'><Link to="/">Home</Link></li>
-              <li><Link to="/inventory">All Items</Link></li>
-              {loggedIn ? ( <li><Link to={toPath({user_id: userId})}>My Items</Link></li>) : ([]) }
-              {loggedIn ? (<li><Link to="/inventory/items/add">Add Item</Link></li>) : ([]) }
-            {/* </ul> */}
+          <li className = 'link'><Link to="/">Home</Link></li>
+          <li><Link to="/inventory">All Items</Link></li>
+          {loggedIn ? ( <li><Link to={toPath({user_id: userId})}>My Items</Link></li>) : ([]) }
+          {loggedIn ? (<li><Link to="/inventory/items/add">Add Item</Link></li>) : ([]) }
           <br></br>
         </nav>
       </div>

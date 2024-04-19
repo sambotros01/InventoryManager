@@ -6,44 +6,45 @@ import { useNavigate } from 'react-router-dom';
 function Inventory () {
   const [ allItems, setAllItems ] = useState([]);
   const [ id, setId] = useState(0)
-  // const [ foodDescription, setFoodDescription ] = useState([])
   const { item, setItem } = useContext(LogInTracker)
   const navigate = useNavigate();
-  console.log('itemid:', item);
 
+  // Get data of all inventory items
   useEffect(() => {
     fetchItems();
-
   }, [])
 
+  // Get item id of the last item in the inventory
   useEffect(() => {
     fetchId();
 
     if(id > item){
-      setItem(id)
+      setItem(id) //Set item id to highest number in the item table
     }
 
   }, [id])
 
+  // Set item id to last item in the inventory
   const fetchId = async () => {
     await fetch('http://localhost:3001/inventory')
     .then(response => response.json())
     .then(data => setId(parseInt(data[data.length-1].item_id)))
-    // .then(x => console.log(parseInt(x[x.length-1].item_id)))
   }
 
+  // Set data for all inventory items
   const fetchItems = async () => {
     await fetch('http://localhost:3001/inventory')
     .then(response => response.json())
     .then(data => setAllItems(data))
-    // .then(details => allItems.map((info) => [setFoodDescription(info.item_description)]))
     .catch(error => console.log('Error fetching games: ', error))
   }
 
+  // Redirect to details page when specific item is clicked
   const Details = (item_id) => {
     navigate(`/inventory/items/${item_id}`)
   }
 
+  // Provide description of item with 100 character cut off
   const Description = (foodDescription) => {
     if (foodDescription.length > 100 ){
       const cutOff = foodDescription.slice(0, 100)
@@ -54,8 +55,6 @@ function Inventory () {
       return foodDescription
     }
   }
-
-
 
   return (
     <div className = 'Background'>

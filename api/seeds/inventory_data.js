@@ -7,7 +7,7 @@ exports.seed = async function(knex, Promise) {
   await knex.raw('TRUNCATE TABLE item RESTART IDENTITY CASCADE')
   await knex.raw('TRUNCATE TABLE users RESTART IDENTITY CASCADE')
 
-
+  // Seed user table
   .then( () => {
     return knex('users').insert([
       {name_first: 'Sarah', name_last: 'Smith', username: 'sarah.smith', password: 'password'},
@@ -21,6 +21,7 @@ exports.seed = async function(knex, Promise) {
     ])
   })
 
+  // Seed item table
   .then( () => {
     return knex('item').insert([
       {item_name: 'Apples', item_description: 'A crisp and juicy fruit with a sweet or tart flavor, typically round or oval in shape and ranging in color from green to red or yellow. Apples are versatile and can be eaten fresh, used in cooking and baking, or made into juice and cider.', quantity: 100},
@@ -38,6 +39,7 @@ exports.seed = async function(knex, Promise) {
     ])
   })
 
+  // Seed inventory table
   .then( () => {
     return knex('inventory').insert([
       {item_id: 1, user_id: 1},

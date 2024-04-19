@@ -16,12 +16,12 @@ function Item () {
   const [ itemQuantity, setItemQuantity ] = useState('');
   const [ itemDescription, setItemDescription] = useState('');
 
+  // Get details for a specific item
   useEffect(() => {
     const fetchData = async() => {
       try{
         const response = await fetch (`http://localhost:3001/inventory/item/${item_id}`)
         const data = await response.json();
-        // setItemData(data[0]);
         setItemName(data[0].item_name);
         setItemQuantity(data[0].quantity);
         setItemDescription(data[0].item_description)
@@ -33,6 +33,7 @@ function Item () {
     fetchData()
   }, [item_id])
 
+  // Get data for all inventory items
   useEffect(() => {
     const fetchData = async() => {
       try{
@@ -46,10 +47,12 @@ function Item () {
     fetchData()
   }, [item_id])
 
+  // Render edit screen when update button is clicked
   const Update = () => {
     setEdit(true)
   }
 
+  // Update item based on changes invoked by the inventory manager
   const handleSubmit = async(event) => {
     event.preventDefault();
 
@@ -79,16 +82,9 @@ function Item () {
     setEdit(false);
   }
 
+  // Delete item
   const Delete = async () => {
     const shouldDelete = window.confirm("Are you sure you want to delete this item?")
-    // if (item_id == parseInt(itemData[itemData.length - 1].item_id)){
-    //   setDeleted(true);
-    // }
-
-    // console.log('Deleted: ', deleted)
-    // console.log('ItemID: ', item_id)
-    // console.log('Item Data: ', itemData)
-    // console.log('LastID: ', itemData[itemData.length - 1].item_id)
 
     if (shouldDelete){
       try{
@@ -111,11 +107,16 @@ function Item () {
 
 
   return(
+    // Render page depending if content is loaded, display loading until ready
     (!loading ?
 
+      // Render page depending on whether inventory manager selects to edit or view items
       (!edit ?
 
+        // Render page based on whether it is an inventory manager or visitor
         (loggedIn ?
+
+          // Item detail view for an inventory manager
           <div className = 'Background'>
           <h1 className = 'Title'>Item Details</h1>
           <br></br>
@@ -139,6 +140,7 @@ function Item () {
 
           :
 
+          // Item detail view for visitor
           <div className = 'Background'>
           <h1 className = 'Title'>Item Details</h1>
           <br></br>
@@ -154,16 +156,12 @@ function Item () {
           <br></br>
           </div>
 
-
           )
-
-
-
         :
-
+        // Editable by inventory manager
         <div className = 'Background'>
-        <h1 className = 'Title'>Item Details</h1>
-        <h2 className = 'Title'>Edit Item</h2>
+          <h1 className = 'Title'>Item Details</h1>
+          <h2 className = 'Title'>Edit Item</h2>
           <form className = 'Form' onSubmit={handleSubmit}>
             <label>
               <input type = "text" placeholder = "Enter Item Name" style={{ paddingLeft: 60, paddingRight: 60, borderRadius: 5, textAlign: 'center' }} value={itemName} onChange={(e) => setItemName(e.target.value)} />
@@ -187,13 +185,12 @@ function Item () {
 
       :
 
+      // Content loading
+      <div className = 'Background'>
       <h1 className = 'Title'>Loading...</h1>
-
+      </div>
     )
-
   )
-
-
 }
 
 export default Item

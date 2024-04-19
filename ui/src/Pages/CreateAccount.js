@@ -9,23 +9,10 @@ function CreateAccount () {
   const [userName, setUserName] = useState("");
   const [userPassword, setUserPassword] = useState("");
   const [accountData, setAccountData] = useState('');
-  // const [count, setCount] = useState(0);
   const { loggedIn, setLoggedIn, setUserId, userId } = useContext(LogInTracker)
   const navigate = useNavigate();
-  // const bcrypt = require('bcrypt');
-  // let saltRounds = 12;
-  // let thePlaintextPassword = userPassword;
 
-
-  // useEffect(() => {
-  //   fetch('http://localhost:3001/users')
-  //   .then(response => response.json())
-  //   .then( data => setUserId(data[data.length].user_id))
-
-  //   // navigate(`/inventory/users/${userId}`)
-
-  //   }, [accountData])
-
+  // Get user id for the new account
   useEffect(() => {
     fetch('http://localhost:3001/users')
     .then(response => response.json())
@@ -39,11 +26,11 @@ function CreateAccount () {
   }, [userId, setUserId])
 
 
+  // Fetch current user table data
   useEffect(() => {
     const addUser = async () => {
       try{
         const response = await fetch('http://localhost:3001/users')
-        // navigate(`/inventory/users/${response.user_id}`)
 
         if (!response.ok) {
           throw new Error(`HTTP eror status: ${response.status}`)
@@ -57,25 +44,10 @@ function CreateAccount () {
     if (accountData){
       addUser()
     }
-    // console.log('What?: ', accountData)
+
   }, [accountData])
 
-  // const handleSubmit = async (event) => {
-  //   event.preventDefault();
-
-  //   const request_data = {
-  //     name_first: firstName,
-  //     name_last: lastName,
-  //     username: userName,
-  //     password: userPassword
-  //   };
-
-  //   setAccountData(request_data)
-  //   window.confirm("Account created!")
-  //   setLoggedIn(true)
-  //   navigate(`/inventory/users/${request_data.user_id}`)
-  // }
-
+  // Required user data
   const request_data = {
     name_first: firstName,
     name_last: lastName,
@@ -83,6 +55,7 @@ function CreateAccount () {
     password: userPassword,
   };
 
+  // Add new user
   const handleSubmit = async (e) => {
     e.preventDefault();
       fetch('http://localhost:3001/users', {
@@ -99,33 +72,6 @@ function CreateAccount () {
         }
       })
 
-      // bcrypt.hash(thePlaintextPassword, saltRounds)
-      //   .then((hash) => {
-      //     // Store hash in your password DB...
-      //     // or insecurely log it!
-      //     console.log(hash);
-      //   })
-      //   .catch((err) => {
-      //     console.log("oopsie:", err);
-      //   });
-
-    //   await fetch('http://localhost:3001/users')
-    //   .then(response => response.json())
-    //   .then( index => {if (userId == 0){
-    //     return index.length
-    //   }else{
-    //     return index.pop().user_id
-    //   }
-    // })
-    // .then( data => setUserId(data))
-
-    //   // .then( last => last.pop().user_id)
-    //   // .then( x => console.log(x))
-    //   // .then( data => setUserId(data))
-    //   // .then ( x => console.log(userId))
-
-
-    // setTimeout(() => (console.log(userId), 3000))
     setTimeout(() => navigate(`/inventory/users/${userId}`), 2000)
   }
 

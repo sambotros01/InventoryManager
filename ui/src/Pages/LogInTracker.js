@@ -2,7 +2,7 @@ import React, { createContext, useState } from "react";
 
 export const LogInTracker = createContext();
 
-
+// Set global variables
 export const LoggedInProvider = ({ children }) => {
   const [ loggedIn, setLoggedIn ] = useState(false);
   const [ userId, setUserId ] = useState(0)
