@@ -4,7 +4,6 @@ import { compile } from 'path-to-regexp'
 import Home from './Pages/Home';
 import Inventory from './Pages/Inventory';
 import Item from './Pages/Item';
-import Edit from './Pages/Edit';
 import NewItem from './Pages/NewItem';
 import MyItems from './Pages/MyItems';
 import LogIn from './Pages/LogIn'
@@ -46,7 +45,6 @@ function App() {
           <Route path='/inventory' element={<Inventory/>} />
           <Route path='/inventory/items/:item_id' element={<Item/>} />
           <Route path='/inventory/items/add' element={<NewItem/>} />
-          <Route path='/inventory/items/edit/:item_id' element={<Edit/>} />
           <Route path='/inventory/users/:user_id' element={<MyItems/>} />
           <Route path='/users/login' element={<LogIn/>} />
           <Route path='/users/new' element={<CreateAccount/>} />

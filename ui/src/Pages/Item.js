@@ -116,9 +116,8 @@ function Item () {
       (!edit ?
 
         (loggedIn ?
-
           <div className = 'Background'>
-          <h2 className = 'Title'>Item Details</h2>
+          <h1 className = 'Title'>Item Details</h1>
           <br></br>
           <h3 className = 'Title'>Item Name:</h3>
           <p className = 'Title'>{itemName}</p>
@@ -141,7 +140,7 @@ function Item () {
           :
 
           <div className = 'Background'>
-          <h2 className = 'Title'>Item Details</h2>
+          <h1 className = 'Title'>Item Details</h1>
           <br></br>
           <h3 className = 'Title'>Item Name:</h3>
           <p className = 'Title'>{itemName}</p>
@@ -163,6 +162,7 @@ function Item () {
         :
 
         <div className = 'Background'>
+        <h1 className = 'Title'>Item Details</h1>
         <h2 className = 'Title'>Edit Item</h2>
           <form className = 'Form' onSubmit={handleSubmit}>
             <label>
